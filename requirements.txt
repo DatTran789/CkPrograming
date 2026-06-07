@@ -1,0 +1,13 @@
+# Xử lý dữ liệu và tính toán toán học
+pandas
+numpy
+
+# Trích xuất tính năng mạng từ file PCAP
+scapy
+
+# Học máy (Machine Learning) và xử lý mô hình
+scikit-learn
+joblib
+
+# Tương tác với mô hình ngôn ngữ lớn (Nếu bạn tự chạy Agent bằng code Python)
+openai

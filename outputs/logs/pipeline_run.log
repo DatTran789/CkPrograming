@@ -1,0 +1,7 @@
+[2026-06-08 00:33:28] Kích hoạt Orchestrator Agent - Bắt đầu Pipeline.
+[2026-06-08 00:33:28] Kích hoạt TLS Flow Agent -> Trích xuất file PCAP.
+[2026-06-08 00:33:31] TLS Flow Agent hoàn thành trích xuất dữ liệu thành công.
+[2026-06-08 00:33:31] Kích hoạt Traffic Classifier Agent -> Dự đoán nhãn ứng dụng.
+[2026-06-08 00:34:07] Traffic Classifier Agent phân loại dữ liệu thành công dựa trên Random Forest.
+[2026-06-08 00:34:07] Kích hoạt Report Generator Agent -> Xuất kết quả bài nộp.
+[2026-06-08 00:34:07] Pipeline kết thúc an toàn. Toàn bộ tác vụ thành công.
