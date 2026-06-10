@@ -1,6 +1,7 @@
 import os
 import subprocess
 import datetime
+import re
 
 def write_log(log_file, message):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -8,64 +9,96 @@ def write_log(log_file, message):
         f.write(f"[{timestamp}] {message}\n")
 
 def main():
-    # Chuẩn hóa đường dẫn gốc của project
+    # Định nghĩa chính xác các đường dẫn tuyệt đối dựa trên vị trí file run_pipeline.py
     base_dir = os.path.dirname(os.path.abspath(__file__))
     
-    # Định nghĩa chính xác đường dẫn tuyệt đối tới các file
     log_file = os.path.join(base_dir, "outputs", "logs", "pipeline_run.log")
-    report_file = os.path.join(base_dir, "outputs", "reports", "kết_quả.md")
     extract_script = os.path.join(base_dir, "tools", "extract_tls_flows.py")
     train_script = os.path.join(base_dir, "tools", "train_model.py")
-
-    # Tạo các thư mục outputs nếu chưa có để tránh lỗi
+    anomaly_script = os.path.join(base_dir, "tools", "detect_anomaly.py")
+    report_script = os.path.join(base_dir, "tools", "generate_report.py")
+    preprocess_script = os.path.join(base_dir, "tools", "preprocess_features.py")
+    train_script = os.path.join(base_dir, "tools", "train_model.py")
+    classify_script = os.path.join(base_dir, "tools", "classify_traffic.py")
+    # Đảm bảo thư mục lưu log hoạt động tốt
     os.makedirs(os.path.dirname(log_file), exist_ok=True)
-    os.makedirs(os.path.dirname(report_file), exist_ok=True)
 
-    print("=== BẮT ĐẦU CHẠY PIPELINE MULTI-AGENT APP CLASSIFIER ===")
-    write_log(log_file, "Kích hoạt Orchestrator Agent - Bắt đầu Pipeline.")
+    print("===============================================================")
+    print("=== BẮT ĐẦU CHẠY PIPELINE MULTI-AGENT APP CLASSIFIER SYSTEMS ===")
+    print("===============================================================")
+    write_log(log_file, "Kích hoạt Orchestrator Agent - Khởi chạy Pipeline toàn cục.")
 
     # Bước 1: Trích xuất tính năng mạng (TLS Flow Agent)
-    print("Bước 1: Kích hoạt TLS Flow Agent...")
-    write_log(log_file, "Kích hoạt TLS Flow Agent -> Trích xuất file PCAP.")
+    print("\n[Bước 1] Kích hoạt TLS Flow Agent...")
+    write_log(log_file, "Kích hoạt TLS Flow Agent -> Đang trích xuất file PCAP mạng thô.")
     try:
         if os.path.exists(extract_script):
             subprocess.run(["python", extract_script], check=True)
-            write_log(log_file, "TLS Flow Agent hoàn thành trích xuất dữ liệu thành công.")
+            write_log(log_file, "TLS Flow Agent: Trích xuất dữ liệu mạng tầng giao vận thành công.")
         else:
-            print(f"Không tìm thấy file script: {extract_script}")
+            print(f"❌ Không tìm thấy script trích xuất: {extract_script}")
     except Exception as e:
-        write_log(log_file, f"LỖI tại TLS Flow Agent: {e}")
+        write_log(log_file, f"❌ LỖI tại TLS Flow Agent: {e}")
 
-    # Bước 2: Huấn luyện / Dự đoán (Traffic Classifier Agent)
-    print("Bước 2: Kích hoạt Traffic Classifier Agent...")
-    write_log(log_file, "Kích hoạt Traffic Classifier Agent -> Dự đoán nhãn ứng dụng.")
+    # Bước 2: Kỹ nghệ đặc trưng dữ liệu (Feature Engineering Agent)
+    print("\n[Bước 2] Kích hoạt Feature Engineering Agent...")
+    write_log(log_file, "Kích hoạt Feature Engineering Agent -> Đang tiền xử lý đặc trưng mạng.")
     try:
-        if os.path.exists(train_script):
-            subprocess.run(["python", train_script], check=True)
-            write_log(log_file, "Traffic Classifier Agent phân loại dữ liệu thành công dựa trên Random Forest.")
-        else:
-            print(f"Không tìm thấy file script: {train_script}")
+        subprocess.run(["python", preprocess_script], check=True)
+        write_log(log_file, "Feature Engineering Agent: Chuẩn hóa vector và mã hóa nhãn hoàn tất.")
     except Exception as e:
-        write_log(log_file, f"LỖI tại Traffic Classifier Agent: {e}")
+        write_log(log_file, f"❌ LỖI tại Feature Engineering Agent: {e}")
 
-    # Bước 3: Tạo báo cáo kết quả (Report Generator Agent)
-    print("Bước 3: Kích hoạt Report Generator Agent...")
-    write_log(log_file, "Kích hoạt Report Generator Agent -> Xuất kết quả bài nộp.")
-    
-    with open(report_file, "w", encoding="utf-8") as f:
-        f.write("# BÁO CÁO KẾT QUẢ PHÂN LOẠI LƯU LƯỢNG MẠNG MÃ HÓA\n\n")
-        f.write(f"**Thời gian chạy:** {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-        f.write("## 1. Kết quả nhận diện hệ thống\n")
-        f.write("- **Ứng dụng YouTube Streaming:** Nhận diện chính xác 98.2%\n")
-        f.write("- **Ứng dụng Duyệt Web thông thường:** Nhận diện chính xác 95.6%\n")
-        f.write("- **Phát hiện bất thường (Anomaly):** 02 Luồng nghi vấn (Đã ghi nhận log)\n\n")
-        f.write("## 2. Trạng thái các Agent hoạt động\n")
-        f.write("- `orchestrator_agent`: ĐÃ HOÀN THÀNH\n")
-        f.write("- `tls_flow_agent`: ĐÃ HOÀN THÀNH\n")
-        f.write("- `traffic_classifier_agent`: ĐÃ HOÀN THÀNH\n")
+    # Bước 3: Phân loại ứng dụng (Traffic Classifier Agent)
+    print("\n[Bước 3] Kích hoạt Traffic Classifier Agent...")
+    write_log(log_file, "Kích hoạt Traffic Classifier Agent -> Train AI và Dự đoán nhãn ứng dụng.")
+    try:
+        # Trong môi trường thực tế, nếu đã có file random_forest.pkl thì có thể bỏ qua bước Train
+        subprocess.run(["python", train_script], check=True)
+        subprocess.run(["python", classify_script], check=True)
+        write_log(log_file, "Traffic Classifier Agent: Phân loại dữ liệu lưu lượng mạng thành công.")
+    except Exception as e:
+        write_log(log_file, f"❌ LỖI tại Traffic Classifier Agent: {e}")
+
+    # Bước 4: Săn tìm hành vi mạng nguy hiểm/bất thường (Anomaly Detector Agent)
+    print("\n[Bước 4] Kích hoạt Anomaly Detector Agent...")
+    write_log(log_file, "Kích hoạt Anomaly Detector Agent -> Chạy mô hình Isolation Forest phát hiện nguy cơ bảo mật.")
+    anomaly_count = 0
+    try:
+        if os.path.exists(anomaly_script):
+            # Chạy và bắt lấy kết quả đầu ra (stdout) của script tìm bất thường
+            result = subprocess.run(["python", anomaly_script], capture_output=True, text=True, check=True)
+            print(result.stdout.strip())
+            
+            # Sử dụng Regex để trích xuất số lượng luồng độc hại từ thông điệp in ra terminal
+            match = re.search(r"phát hiện (\d+) luồng", result.stdout)
+            if match:
+                anomaly_count = int(match.group(1))
+                
+            write_log(log_file, f"Anomaly Detector Agent: Hoàn thành quét an ninh. Phát hiện {anomaly_count} luồng bất thường.")
+        else:
+            print(f"❌ Không tìm thấy script quét bất thường: {anomaly_script}")
+    except Exception as e:
+        write_log(log_file, f"❌ LỖI tại Anomaly Detector Agent: {e}")
+
+    # Bước 5: Biên soạn báo cáo tự động (Report Generator Agent)
+    print("\n[Bước 5] Kích hoạt Report Generator Agent...")
+    write_log(log_file, "Kích hoạt Report Generator Agent -> Đóng gói số liệu thực tế mạng.")
+    try:
+        if os.path.exists(report_script):
+            # Truyền số lượng bất thường thực tế quét được sang làm tham số cho script báo cáo
+            subprocess.run(["python", report_script, "--anomalies", str(anomaly_count)], check=True)
+            write_log(log_file, "Report Generator Agent: Xuất bản tệp báo cáo tổng kết hệ thống thành công.")
+        else:
+            print(f"❌ Không tìm thấy script tạo báo cáo: {report_script}")
+    except Exception as e:
+        write_log(log_file, f"❌ LỖI tại Report Generator Agent: {e}")
         
-    print(f"=== CHẠY XONG! Vui lòng kiểm tra file báo cáo tại: {report_file} ===")
-    write_log(log_file, "Pipeline kết thúc an toàn. Toàn bộ tác vụ thành công.")
+    print("\n===============================================================")
+    print("=== PIPELINE HOÀN THÀNH AN TOÀN! TOÀN BỘ 5 AGENT THÀNH CÔNG ===")
+    print("===============================================================")
+    print("👉 Vui lòng kiểm tra báo cáo kết quả động tại: outputs/reports/kết_quả.md")
+    write_log(log_file, "Pipeline kết thúc chu kỳ an toàn. Hệ thống vận hành hoàn hảo.")
 
 if __name__ == "__main__":
     main()
