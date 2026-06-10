@@ -1,9 +1,18 @@
-# Pipeline Execution Chain
+# Orchestration Execution Chain
+
+Đây là biểu đồ luồng nghiệp vụ định tuyến các Agent thực thi theo đúng thứ tự logic của Pipeline phân tích dữ liệu mạng.
 
 ```mermaid
 graph TD
-    A[Bắt đầu Pipeline] --> B(TLS Flow Agent: Trích xuất PCAP)
-    B --> C(Feature Engineering Agent: Xử lý số liệu)
-    C --> D(Traffic Classifier Agent: Chạy AI dự đoán)
-    D --> E(Anomaly Detector Agent: Phát hiện bất thường)
-    E --> F(Report Generator Agent: Xuất kết quả.md)
+    Start((Bắt đầu)) --> Agent1(TLS Flow Agent)
+
+    Agent1 -->|Trích xuất CSV| Agent2(Feature Engineering Agent)
+
+    Agent2 -->|Dữ liệu chuẩn hóa| Agent3(Traffic Classifier Agent)
+
+    Agent3 -->|Dự đoán nhãn ứng dụng| Agent4(Anomaly Detector Agent)
+
+    Agent4 -->|Tìm luồng nghi vấn DDoS/Mã độc| Agent5(Report Generator Agent)
+
+    Agent5 -->|Biên dịch Markdown| End((Kết thúc an toàn))
+```
