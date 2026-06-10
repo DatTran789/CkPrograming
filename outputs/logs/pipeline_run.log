@@ -5,3 +5,15 @@
 [2026-06-08 00:34:07] Traffic Classifier Agent phân loại dữ liệu thành công dựa trên Random Forest.
 [2026-06-08 00:34:07] Kích hoạt Report Generator Agent -> Xuất kết quả bài nộp.
 [2026-06-08 00:34:07] Pipeline kết thúc an toàn. Toàn bộ tác vụ thành công.
+[2026-06-09 09:55:12] Kích hoạt Orchestrator Agent - Khởi chạy Pipeline toàn cục.
+[2026-06-09 09:55:12] Kích hoạt TLS Flow Agent -> Đang trích xuất file PCAP mạng thô.
+[2026-06-09 09:55:18] TLS Flow Agent: Trích xuất dữ liệu mạng tầng giao vận thành công.
+[2026-06-09 09:55:18] Kích hoạt Feature Engineering Agent -> Đang tiền xử lý đặc trưng mạng.
+[2026-06-09 09:55:29] Feature Engineering Agent: Chuẩn hóa vector và mã hóa nhãn hoàn tất.
+[2026-06-09 09:55:29] Kích hoạt Traffic Classifier Agent -> Train AI và Dự đoán nhãn ứng dụng.
+[2026-06-09 09:55:35] Traffic Classifier Agent: Phân loại dữ liệu lưu lượng mạng thành công.
+[2026-06-09 09:55:35] Kích hoạt Anomaly Detector Agent -> Chạy mô hình Isolation Forest phát hiện nguy cơ bảo mật.
+[2026-06-09 09:55:36] ❌ LỖI tại Anomaly Detector Agent: Command '['python', 'D:\\NĂM 3\\HK2\\Đợt 2\\Lập trình mạng\\CkPrograming\\tools\\detect_anomaly.py']' returned non-zero exit status 1.
+[2026-06-09 09:55:36] Kích hoạt Report Generator Agent -> Đóng gói số liệu thực tế mạng.
+[2026-06-09 09:55:37] Report Generator Agent: Xuất bản tệp báo cáo tổng kết hệ thống thành công.
+[2026-06-09 09:55:37] Pipeline kết thúc chu kỳ an toàn. Hệ thống vận hành hoàn hảo.
