@@ -17,7 +17,7 @@ graph TD
     Agent5 -->|Biên dịch Markdown| End((Kết thúc an toàn))
 ```
 
-📋 Cấu hình chi tiết lộ trình Pipeline (Execution Specification)
+## 📋 Cấu hình chi tiết lộ trình Pipeline (Execution Specification)
 Bước 1: Trích xuất dòng chảy mạng
 Đặc vụ đảm trách: TLS Flow Agent
 
