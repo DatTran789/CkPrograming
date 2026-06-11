@@ -27,6 +27,7 @@ project/
 ├── outputs/                # Thành phẩm đầu ra bao gồm Nhật ký (Logs) và Báo cáo (Reports)
 ├── requirements.txt        # Danh sách các thư viện cần cài đặt
 └── run_pipeline.py         # File khởi chạy tổng thể hệ thống
+```
 
 ---
 
@@ -46,16 +47,19 @@ Bước 1: Mở khóa quyền chạy Script trên Windows (Nếu dùng PowerShel
 Mở tab Terminal tại thư mục dự án và chạy lệnh sau để nới lỏng chính sách bảo mật của Windows:
 ```text
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
 
 Bước 2: Nạp API Key OpenAI vào két sắt bảo mật của Pi
 Tiến hành đăng nhập và lưu vĩnh viễn khóa API trả phí của nhóm vào framework bằng cú pháp:
 ```text
 npx pi /login openai sk-proj-MÃ_API_KEY_OPENAI_CỦA_NHÓM
+```
 
 Bước 3: Gửi "Lệnh" kích hoạt Orchestrator
 Sao chép toàn bộ mệnh lệnh dưới đây, dán vào Terminal để ép Pi Agent sử dụng mô hình gpt-4o đọc hiểu kiến trúc và tự động triển khai toàn bộ đồ án:
 ```text
 npx pi --provider openai --model gpt-4o "Hãy đóng vai trò là Orchestrator hệ thống. Hãy đọc file .pi/chains/chain.md để nắm bắt kiến trúc. Dựa vào sơ đồ đó, hãy tuần tự đóng vai các Agent, đọc các file cấu hình trong .pi/prompts/ và .pi/skills/ tương ứng, sau đó tự động triển khai hoặc thực thi code trong thư mục tools/ để hoàn thành đường ống phân loại lưu lượng mạng. Nếu có lỗi phát sinh, hãy tự động debug và đi tiếp cho đến khi tạo ra file báo cáo kết_quả.md"
+```
 
 ## 📊 5. Nghiệm thu sản phẩm đầu ra
 Sau khi Pipeline hoàn thành chu kỳ thực thi, nhóm có thể kiểm tra các thành phẩm thu được tại:
