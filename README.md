@@ -50,9 +50,9 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
 Bước 2: Nạp API Key OpenAI vào két sắt bảo mật của Pi
-Tiến hành đăng nhập và lưu vĩnh viễn khóa API trả phí của nhóm vào framework bằng cú pháp:
+Tiến hành đăng nhập và lưu vĩnh viễn khóa API của nhóm vào framework bằng cú pháp:
 ```text
-npx pi /login openai sk-proj-MÃ_API_KEY_OPENAI_CỦA_NHÓM
+npx pi /login openai sk-proj-MÃ_API_KEY_OPENAI
 ```
 
 Bước 3: Gửi "Lệnh" kích hoạt Orchestrator
@@ -71,6 +71,6 @@ outputs/reports/kết_quả.md: File báo cáo động bằng tiếng Việt (ch
 ## 👥 6. Thành viên thực hiện
 Đồ án được nghiên cứu và phát triển bởi nhóm sinh viên lớp Lập trình mạng - HCMUTE:
 
-Nguyễn Thái Hưng
+Nguyễn Thái Hưng - 23162035
 
-Trần Ngọc Đạt
+Trần Ngọc Đạt - 23162019 
