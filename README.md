@@ -68,7 +68,9 @@ tools/: Chứa toàn bộ các file code Python cốt lõi do AI tự tạo lậ
 
 outputs/reports/kết_quả.md: File báo cáo động bằng tiếng Việt (chuẩn mã hóa UTF-8) tổng hợp trực quan biểu đồ lưu lượng mạng, nhãn ứng dụng phân loại và danh sách các dòng chảy mạng nghi vấn độc hại do thuật toán phát hiện.
 
-## 👥 6. Thành viên thực hiện (Team Members)
+## 👥 6. Thành viên thực hiện
 Đồ án được nghiên cứu và phát triển bởi nhóm sinh viên lớp Lập trình mạng - HCMUTE:
+
 Nguyễn Thái Hưng
+
 Trần Ngọc Đạt
